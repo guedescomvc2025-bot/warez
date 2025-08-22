@@ -1,0 +1,13 @@
+{
+  "name": "wplay-scanner",
+  "version": "1.0.0",
+  "description": "Scanner de contas IPTV WPlay",
+  "main": "api/test-server.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^28.16.5"
+  }
+}

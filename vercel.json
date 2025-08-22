@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "functions": {
+    "api/test-server.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/test-server",
+      "destination": "/api/test-server"
+    },
+    {
+      "source": "/api/user-count",
+      "destination": "/api/user-count"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
