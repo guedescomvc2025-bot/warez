@@ -1,20 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "api/test-server.js": {
-      "runtime": "nodejs14.x"
-    }
-  },
   "routes": [
     {
-      "src": "/api/test-server",
-      "dest": "/api/test-server.js",
-      "methods": ["POST", "OPTIONS"]
-    },
-    {
-      "src": "/api/user-count",
-      "dest": "/api/test-server.js",
-      "methods": ["GET"]
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
