@@ -1,4 +1,4 @@
-// Usando fetch nativo do Vercel
+const fetch = require('node-fetch');
 const { URL } = require('url');
 
 // Simples contador de usuários online
@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
             // Construir a URL para o servidor IPTV
             const targetUrl = `${host}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
             
-            // Fazer a requisição para o servidor IPTV usando fetch nativo
+            // Fazer a requisição para o servidor IPTV
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
             
