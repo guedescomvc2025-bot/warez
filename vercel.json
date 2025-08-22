@@ -2,21 +2,23 @@
   "version": 2,
   "functions": {
     "api/test-server.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs14.x"
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/test-server",
-      "destination": "/api/test-server"
+      "src": "/api/test-server",
+      "dest": "/api/test-server.js",
+      "methods": ["POST", "OPTIONS"]
     },
     {
-      "source": "/api/user-count",
-      "destination": "/api/user-count"
+      "src": "/api/user-count",
+      "dest": "/api/test-server.js",
+      "methods": ["GET"]
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
